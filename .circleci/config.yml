@@ -1,0 +1,36 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:4.8.2
+    working_directory: /app
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: yarn
+      - save_cache:
+          key: build-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .
+  test:
+    docker:
+      - image: library/node:carbon
+    working_directory: /app
+    steps:
+      - checkout
+      - run: echo "hello world"
+      - save_cache:
+          key: test-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires: 
+	    - build
+	    
