@@ -24,8 +24,6 @@ jobs:
           key: test-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
-
-
 workflows:
   version: 2
   build_and_test:
